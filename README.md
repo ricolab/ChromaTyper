@@ -60,10 +60,32 @@ Labels are per gene: `Chromotype_4` of one gene has no relation to `Chromotype_4
 R (>= 4.2) with `data.table`, `dynamicTreeCut`, `fastcluster` (or base `hclust`) and
 `parallel`.
 
-## Status
+## Usage
 
-Code is being moved into this repository from the analysis repository; usage examples
-will be added with it.
+From the repository root:
+
+```bash
+Rscript chromatyper.R --emissions example/emissions.csv --bins example/gene_bins.csv --out results/toy
+```
+
+This writes `results/toy_chromatypes.csv` (epigenome x gene labels), `results/toy_summary.csv`
+and `results/toy_failures.csv`. Optional flags: `--deepSplit`, `--minClusterSize`,
+`--pamRespectsDendro`, `--aggregation`, `--minValid` and `--cores` (see Main parameters).
+
+From R:
+
+```r
+library(data.table)
+source("R/chromatyper.R")
+res <- chromatyper(read_gene_bins("example/gene_bins.csv"),
+                   read_emissions("example/emissions.csv"),
+                   deepSplit = 0, minClusterSize = 5)
+res$matrix[1:5, ]
+```
+
+`example/emissions.csv` is the emission matrix of the IHEC EpiAtlas 18-state model.
+`example/gene_bins.csv` is a toy table (two genes, 30 epigenomes, three chromatin patterns
+with noise), made by `example/make_example.R`.
 
 ## Citation
 
